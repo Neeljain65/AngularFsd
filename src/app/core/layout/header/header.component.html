@@ -1,0 +1,19 @@
+
+<nav class="navbar bg-dark">
+  <h1>
+    <a href="index.html"><i class="fas fa-code"></i> {{ title }} </a>
+  </h1>
+  <ul>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About Us</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <div *ngIf="!isLoggedIn" class="auth-buttons">
+    <a href="/auth/student" class="button">Student Login</a>
+    <a href="/auth/login" class="button">Admin Login</a>
+  </div>
+  <div *ngIf="isLoggedIn" class="auth-buttons">
+    <a (click)="logout()"  class="button">Logout</a>
+  </div>
+</nav>

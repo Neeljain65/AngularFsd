@@ -1,0 +1,28 @@
+.button{
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    white-space: nowrap;
+    margin: 2px;
+    border: 1px solid transparent;
+    line-height: 1.5;
+   
+}
+.button:hover{
+    background-color: grey;
+    border-color: #0056b3;
+    color: #fff;
+}
+.navbar{
+    z-index: 1000;
+    position: sticky;
+}

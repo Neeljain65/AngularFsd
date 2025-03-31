@@ -1,0 +1,95 @@
+<style>
+  .services-section {
+      padding: 80px 20px;
+      background-color: #f9f9f9;
+      text-align: center;
+  }
+
+  .section-title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 40px;
+      color: #333;
+  }
+
+  .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+  }
+
+  .service-card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .service-icon {
+      font-size: 3rem;
+      margin-bottom: 15px;
+  }
+
+  .service-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #222;
+  }
+
+  .service-description {
+      font-size: 1rem;
+      color: #666;
+  }
+</style>
+    <section id="home" class="hero">
+        <div class="background" style="background-image: url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
+            <div class="overlay"></div>
+        </div>
+        <div class="container">
+            <div class="content">
+                <h1>Elevate Your Skills with Our Training Sessions</h1>
+                <p>Join our comprehensive training programs designed to help you excel in your career.</p>
+                <div class="buttons">
+                    <button class="primary">Explore Courses</button>
+                    <button class="secondary">Learn More</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="services" class="services-section">
+      <div class="container">
+          <h2 class="section-title">Our Services</h2>
+          <div class="services-grid">
+              <div class="service-card">
+                  <div class="service-icon">📚</div>
+                  <h3 class="service-title">Online Courses</h3>
+                  <p class="service-description">Access our library of courses anytime, anywhere. Learn at your own pace with our comprehensive curriculum.</p>
+              </div>
+              <div class="service-card">
+                  <div class="service-icon">🎓</div>
+                  <h3 class="service-title">Live Training</h3>
+                  <p class="service-description">Join interactive live sessions with industry experts and get real-time feedback on your progress.</p>
+              </div>
+              <div class="service-card">
+                  <div class="service-icon">🏅</div>
+                  <h3 class="service-title">Certification</h3>
+                  <p class="service-description">Earn recognized certifications that boost your resume and validate your skills in the job market.</p>
+              </div>
+              <div class="service-card">
+                  <div class="service-icon">👥</div>
+                  <h3 class="service-title">Community Support</h3>
+                  <p class="service-description">Connect with fellow learners, share experiences, and grow together in our supportive community.</p>
+              </div>
+          </div>
+      </div>
+  </section>
+

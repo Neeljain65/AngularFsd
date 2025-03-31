@@ -1,0 +1,39 @@
+.registration-form {
+
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  
+}
+.container {
+  height: 70vh;
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0;
+  border: 1px solid #959595;
+  border-radius: 4px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: blue;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+small {
+  color: red;
+}

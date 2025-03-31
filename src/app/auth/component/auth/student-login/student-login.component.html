@@ -1,0 +1,47 @@
+<div class="form-container">
+  <form [formGroup]="myForm" (ngSubmit)="submitLogin()">
+  
+    <div>
+      <label for="email">Email:</label>
+      <input id="email" formControlName="email" />
+      <div *ngIf="myForm.get('email')?.invalid && myForm.get('email')?.touched">
+        <small *ngIf="myForm.get('email')?.errors?.['required']"
+          >Email is required.</small
+        >
+        <small *ngIf="myForm.get('email')?.errors?.['email']"
+          >Email is not valid.</small
+        >
+      </div>
+    </div>
+
+    <div>
+      <label for="password">Password:</label>
+      <input id="password" type="password" formControlName="password" />
+      <div
+        *ngIf="
+          myForm.get('password')?.invalid && myForm.get('password')?.touched
+        "
+      >
+        <small *ngIf="myForm.get('password')?.errors?.['required']"
+          >Password is required.</small
+        >
+        <small *ngIf="myForm.get('password')?.errors?.['minlength']"
+          >Password must be at least 6 characters long.</small
+        >
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="myForm.invalid">Submit</button>
+  </form>
+</div>
+
+<!-- <h2>Fill Out the Form</h2>
+<form [formGroup]="myForm" (ngSubmit)="submitLogin()">
+  <label for="name">Name:</label>
+  <input id="name" formControlName="name" type="text" />
+
+  <label for="email">Email:</label>
+  <input id="email" formControlName="email" type="email" />
+
+  <button type="submit">Submit</button>
+</form> -->

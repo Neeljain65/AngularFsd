@@ -1,0 +1,44 @@
+
+<div class="container">
+  <form [formGroup]="registrationForm" (ngSubmit)="submitRegistration()" class="registration-form">
+  
+    <br />
+  
+    <div  class="form-group">
+      <div>
+        <label for="email">Email:</label>
+        <input id="email" formControlName="email" type="email" />
+        <br />
+        <small
+          *ngIf="
+            registrationForm.get('email')?.invalid &&
+            registrationForm.get('email')?.touched
+          "
+          style="color: red"
+        >
+          Enter a valid email.
+        </small>
+      </div>
+    
+      
+    
+      <div>
+        <label for="password">Password:</label>
+        <input id="password" formControlName="password" type="password" />
+        <br />
+        <small
+          *ngIf="
+            registrationForm.get('password')?.invalid &&
+            registrationForm.get('password')?.touched
+          "
+          style="color: red"
+        >
+          Password must be at least 6 characters long.
+        </small>
+      </div>
+    </div>
+  
+  
+    <button type="submit" [disabled]="registrationForm.invalid">Login</button>
+  </form>
+</div>

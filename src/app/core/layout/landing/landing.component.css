@@ -1,0 +1,88 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: white;
+  background-color: black;
+}
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.background {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.container {
+  position: relative;
+  z-index: 10;
+  padding: 20px;
+}
+
+.content h1 {
+  color: wheat;
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.content p {
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+  color: #ccc;
+  animation: fadeIn 1s ease-in-out 0.3s both;
+}
+
+.buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  animation: fadeIn 1s ease-in-out 0.6s both;
+}
+
+button {
+  padding: 15px 30px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.primary {
+  background: #3478f6;
+  color: white;
+  border: none;
+}
+
+.primary:hover {
+  background: #285db0;
+}
+
+
+
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+      transform: translateY(20px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
