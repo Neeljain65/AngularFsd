@@ -20,6 +20,6 @@ export class AuthService {
     return this.httpClient.post('api/auth/login', user);
   }
   loginStudent  (user : IRegister): Observable<any> {
-    return this.httpClient.post('api/auth/student', user);
+    return this.httpClient.post('api/auth/login', user);
   }
 }

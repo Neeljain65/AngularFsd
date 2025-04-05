@@ -31,13 +31,13 @@ export class StudentLoginComponent {
             console.log("res",response);
             if(response)
             {
-              localStorage.setItem('token', response);
-              
+              localStorage.setItem('token', response.token);
+              localStorage.setItem("role", response.role);
+              this.router.navigate(['/student']);
             }
           }
         }
       )
-      this.router.navigate(['/dashboard']);
     } else {
       console.log('Form is invalid!');
     }

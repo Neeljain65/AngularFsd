@@ -1,6 +1,68 @@
-<div class="dashboard-container">
-    <p>dashboard works!</p>
-<h2>Welcome to the Dashboard</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trainer Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
 
+    <!-- Navbar -->
+    <nav class="navbar">
+        <h1>Trainer Dashboard</h1>
+        <button onclick="logout()" class="logout-btn">Logout</button>
+    </nav>
 
-</div>
+    <!-- Sidebar + Content -->
+    <div class="container1">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <ul>
+                <li><a (click)="setTab('dashboard')" [class.active]="selectedTab === 'dashboard'">Dashboard</a></li>
+                <li><a (click)="setTab('courses')" [class.active]="selectedTab === 'courses'">Training sessions</a></li>
+                <li><a (click)="setTab('students')" [class.active]="selectedTab === 'students'">Students</a></li>
+                <li><a (click)="setTab('profile')" [class.active]="selectedTab === 'profile'">Profile</a></li>
+             
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main *ngIf="selectedTab==='dashboard'" class="content">
+            <h2>Welcome, Trainer!</h2>
+
+            <div class="cards">
+                <!-- Courses Card -->
+                <div class="card">
+                    <h3>Total Courses</h3>
+                    <p>5</p>
+                </div>
+
+                <!-- Students Card -->
+                <div class="card">
+                    <h3>Total Students</h3>
+                    <p>20</p>
+                </div>
+
+                <!-- Profile Card -->
+                <div class="card">
+                    <h3>Profile</h3>
+                    <p>View and update your profile.</p>
+                    <a href="#">Go to Profile →</a>
+                </div>
+            </div>
+        </main>
+        <app-student *ngIf="selectedTab === 'students'"></app-student>
+        <app-training-session *ngIf="selectedTab === 'courses'"></app-training-session>
+    </div>
+
+    <script>
+        function logout() {
+            alert("Logging out...");
+            localStorage.removeItem("user");
+            window.location.href = "/login";
+        }
+    </script>
+
+</body>
+</html>

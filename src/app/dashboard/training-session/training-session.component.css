@@ -1,0 +1,47 @@
+.calendar-container {
+  text-align: center;
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  padding: 20px;
+}
+
+.calendar-day {
+  width: 100px;
+  height: 80px;
+  background: #f3f3f3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  position: relative;
+}
+
+.calendar-day:hover {
+  background: #ddd;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.modal input {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.modal button {
+  margin-right: 10px;
+}

@@ -16,7 +16,10 @@ const routes: Routes = [
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   }, // ✅ Lazy load DashboardModule
-  
+  {
+    path:'student',
+    loadChildren:()=>import('./student-dashboard/student-dashboard-roting.module').then(m=>m.StudentDashboardModule),
+  }
 ];
 
 @NgModule({

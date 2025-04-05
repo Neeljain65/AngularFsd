@@ -28,6 +28,11 @@ export class LoginComponent {
     
     });
   }
+  ngOnInit(){
+    if(localStorage.getItem('token')){
+      this.router.navigate(['/dashboard']);
+    }
+  }
 
   submitLogin() {
     if (this.myForm.valid) {
@@ -38,13 +43,13 @@ export class LoginComponent {
             console.log("res",response);
             if(response)
             {
-              localStorage.setItem('token', response);
-              
+              localStorage.setItem('token', response.token);
+              localStorage.setItem("role", response.role);
             }
+            this.router.navigate(['/dashboard']);
           }
         }
       )
-      this.router.navigate(['/dashboard']);
     } else {
       console.log('Form is invalid!');
     }
