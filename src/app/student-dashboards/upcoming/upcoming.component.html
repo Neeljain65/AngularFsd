@@ -1,0 +1,15 @@
+<div class="bg-white p-4 rounded shadow mb-6">
+    <h3 class="text-lg font-semibold mb-4">Upcoming Sessions</h3>
+    <div *ngIf="upcomingSessions.length > 0; else noSessions">
+      <div *ngFor="let session of upcomingSessions" class="mb-4">
+        <h4 class="font-bold">{{ session.topic }}</h4>
+        <p>Date: {{ session.date }}</p>
+        <p>Duration: {{ session.duration }} hours</p>
+        <p>Trainer: {{ session.trainer.trainername }} ({{ session.trainer.expertise }})</p>
+        <p>Batch: {{ session.batch.type }}</p>
+      </div>
+    </div>
+    <ng-template #noSessions>
+      <p>No upcoming sessions available.</p>
+    </ng-template>
+  </div>

@@ -1,0 +1,78 @@
+<div class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="w-1/4 bg-gray-800 text-white p-6">
+      <h1 class="text-2xl font-bold mb-6">Student Dashboard</h1>
+      <ul class="space-y-4">
+        <li><a 
+          [ngClass]="{
+            'bg-gray-700 text-white rounded px-3 py-2 block': selectedTab === 'dashboard',
+            
+          }" (click)="setTab('dashboard')" [class.active]="selectedTab === 'dashboard'">Dashboard</a></li>
+        <li><a [ngClass]="{
+          'bg-gray-700 text-white rounded px-3 py-2 block': selectedTab === 'courses',
+          
+        }" 
+          (click)="setTab('courses')" [class.active]="selectedTab === 'courses'">Sessions</a></li>
+        <li><a  [ngClass]="{
+          'bg-gray-700 text-white rounded px-3 py-2 block': selectedTab === 'students',
+          
+        }"(click)="setTab('students')" [class.active]="selectedTab === 'students'">Report</a></li>
+        <li><a [ngClass]="{
+          'bg-gray-700 text-white rounded px-3 py-2 block': selectedTab === 'profile',
+          
+        }" (click)="setTab('profile')" [class.active]="selectedTab === 'profile'">Profile</a></li>
+     
+    </ul>
+    </aside>
+  
+    <!-- Main Content -->
+    <main class="flex-1 p-6 bg-gray-100">
+      <div *ngIf="selectedTab==='dashboard'" class="grid grid-cols-3 gap-6">
+        <!-- New Courses Section -->
+        <section class="col-span-2">
+          <h2 class="text-xl font-bold mb-4">New Courses</h2>
+         <app-upcoming></app-upcoming>
+        </section>
+  
+        <!-- Profile and Calendar Section -->
+        <section>
+          <div class="bg-white p-4 rounded shadow mb-6 cursor-pointer">
+            <div class="flex items-center space-x-4">
+              <div class="w-16 h-16 bg-gray-300 rounded-full"></div>
+              <div  *ngFor="let student of students" class="flex-1">
+                <h3 (click)="selectedTab='profile'" class="text-lg font-semibold">{{student.name}}</h3>
+                <p class="text-sm text-gray-600">{{student.feild}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white p-4 rounded shadow">
+            <h3 class="text-lg font-semibold mb-4">Calendar</h3>
+            <div class="grid grid-cols-7 gap-2 text-center text-sm">
+              <div class="font-bold">Su</div>
+              <div class="font-bold">Mo</div>
+              <div class="font-bold">Tu</div>
+              <div class="font-bold">We</div>
+              <div class="font-bold">Th</div>
+              <div class="font-bold">Fr</div>
+              <div class="font-bold">Sa</div>
+            
+              <!-- Leading blanks for the 1st day offset -->
+              <div *ngFor="let blank of [].constructor(3)"></div> <!-- example: 3 leading blanks -->
+            
+              <!-- Calendar Days -->
+              <div *ngFor="let day of daysInMonth"
+                   [ngClass]="{
+                     'bg-blue-500 text-white rounded': day === currentDay,
+                     'text-gray-800': day !== currentDay
+                   }">
+                {{ day }}
+              </div>
+            </div>
+            
+          </div>
+        </section>
+      </div>
+      <app-allsessions *ngIf="selectedTab==='courses'"></app-allsessions>
+      <app-profile *ngIf="selectedTab==='profile'"></app-profile>
+    </main>
+  </div>

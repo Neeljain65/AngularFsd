@@ -22,4 +22,11 @@ export class AuthService {
   loginStudent  (user : IRegister): Observable<any> {
     return this.httpClient.post('api/auth/login', user);
   }
+  changePassword(email: string, newPassword: string) {
+    return this.httpClient.post(`http://localhost:8080/api/auth/changePassword`, {
+      email: email,
+      newPassword: newPassword
+    },{ responseType: 'text' });
+  }
+  
 }

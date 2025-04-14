@@ -25,19 +25,28 @@ export class StudentLoginComponent {
   submitLogin() {
     if (this.myForm.valid) {
       console.log('Login Data:', this.myForm.value);
-      this.authService.loginStudent(this.myForm.value).subscribe(
-        {
-          next:(response: any) => {
-            console.log("res",response);
-            if(response)
-            {
-              localStorage.setItem('token', response.token);
-              localStorage.setItem("role", response.role);
-              this.router.navigate(['/student']);
+      this.authService.loginUser(this.myForm.value).subscribe({
+        next: (response: any) => {
+          console.log("res", response);
+          if (response) {
+            localStorage.setItem('token', response.token);
+            localStorage.setItem("role", response.role);
+            
+            // Check for password change requirement
+            if (response.requirePasswordChange) {
+              // Store email to identify user for password change
+              localStorage.setItem("email", this.myForm.value.email);
+              this.router.navigate(['/change-password']);
+            } else {
+              let stdid = response.id.toString();
+              this.router.navigate([`/student/${stdid}`]);
             }
           }
+        },
+        error: (err) => {
+          console.log("Login failed", err);
         }
-      )
+      });
     } else {
       console.log('Form is invalid!');
     }

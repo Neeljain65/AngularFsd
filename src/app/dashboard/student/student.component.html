@@ -1,1 +1,45 @@
-<p>student works!</p>
+<div class="p-6">
+    <h1 class="text-2xl font-bold mb-4">Student Directory</h1>
+  
+    <!-- Batches -->
+    <div class="mb-6">
+      <h2 class="text-xl font-semibold mb-2">Select a Batch</h2>
+      <div class="flex flex-wrap gap-2">
+        <button
+          *ngFor="let batch of batchid"
+          (click)="selectBatch(batch)"
+          class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-xl"
+        >
+          {{ batch }}
+        </button>
+      </div>
+    </div>
+  
+    <!-- Students in Selected Batch -->
+    <div *ngIf="filteredStudents.length > 0" class="mb-6">
+      <h2 class="text-xl font-semibold mb-2">Students in Selected Batch</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div
+          *ngFor="let student of filteredStudents"
+          (click)="selectStudent(student)"
+          class="cursor-pointer bg-gray-100 hover:bg-gray-200 p-4 rounded-xl shadow-md"
+        >
+          <h3 class="text-lg font-medium">{{ student.name }}</h3>
+          <p class="text-sm text-gray-600">{{ student.email }}</p>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Selected Student Details -->
+    <div *ngIf="selectedStudent" class="bg-white p-6 rounded-xl shadow-lg">
+      <h2 class="text-xl font-bold mb-4">Student Details</h2>
+      <p><strong>ID:</strong> {{ selectedStudent.studentid }}</p>
+      <p><strong>Name:</strong> {{ selectedStudent.name }}</p>
+      <p><strong>Email:</strong> {{ selectedStudent.email }}</p>
+      <p><strong>Field:</strong> {{ selectedStudent.feild }}</p>
+      <p><strong>Age:</strong> {{ selectedStudent.age }}</p>
+      <p><strong>Type:</strong> {{ selectedStudent.type }}</p>
+      <p><strong>Batch:</strong> {{ selectedStudent.batchid }}</p>
+    </div>
+  </div>
+  

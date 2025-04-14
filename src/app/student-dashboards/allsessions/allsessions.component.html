@@ -1,0 +1,24 @@
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div *ngFor="let session of sessions" class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition duration-300">
+      <h2 class="text-xl font-bold mb-2">{{ session.topic }}</h2>
+      <p class="text-gray-600 text-sm mb-4">Date: {{ session.date }} | Duration: {{ session.duration }} mins</p>
+      
+      <div class="flex items-center gap-2 mb-3">
+        <span class="font-semibold">Trainer:</span>
+        <p>{{ session.trainer.trainername }} ({{ session.trainer.expertise }})</p>
+      </div>
+  
+      <div class="flex items-center gap-2 mb-3">
+        <span class="font-semibold">Batch:</span>
+        <p>{{ session.batch.type }}</p>
+      </div>
+  
+      <div class="text-gray-600 text-sm mb-4">
+        Time: {{ session.time }} 
+      </div>
+  
+     
+    </div>
+  </div>
+  

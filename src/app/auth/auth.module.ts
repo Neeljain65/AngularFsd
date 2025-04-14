@@ -8,8 +8,9 @@ import { RegisterComponent } from './component/auth/register/register.component'
 import { provideHttpClient } from '@angular/common/http';
 import { AuthService } from './services/auth.service';
 import { StudentLoginComponent } from './component/auth/student-login/student-login.component';
+import { ChangePasswordComponent } from './component/auth/change-password/change-password.component';
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent,StudentLoginComponent ],
+  declarations: [LoginComponent, RegisterComponent,StudentLoginComponent, ChangePasswordComponent ],
   imports: [
     CommonModule,
     AuthRoutingModule,

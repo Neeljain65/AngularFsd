@@ -12,13 +12,12 @@ const routes: Routes = [
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
   {
-    path: 'dashboard',
+    path: 'dashboard/:id',
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
-  }, // ✅ Lazy load DashboardModule
-  {
-    path:'student',
-    loadChildren:()=>import('./student-dashboard/student-dashboard-roting.module').then(m=>m.StudentDashboardModule),
+  }, {
+    path:'student/:id',
+    loadChildren:()=>import('./student-dashboards/student-dashboards-routing.module').then(m=>m.StudentDashboardModule),
   }
 ];
 

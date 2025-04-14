@@ -12,7 +12,7 @@ export class HeaderComponent {
   title: string = '';
   constructor(private router: Router) {}
   get isLoggedIn(){
-    return !localStorage.getItem('token') ? false : true;
+    return localStorage.getItem('token') !== null && localStorage.getItem('token') !== 'undefined';
   }
   logout() {
     localStorage.removeItem('token');
