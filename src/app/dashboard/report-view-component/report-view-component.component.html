@@ -1,0 +1,37 @@
+<div class="container mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">Trainer's Reports</h1>
+  
+    <div *ngIf="isLoading" class="text-center text-gray-600">Loading reports...</div>
+  
+    <div *ngIf="errorMessage" class="text-center text-red-500">{{ errorMessage }}</div>
+  
+    <div *ngIf="!isLoading && !errorMessage">
+      <table class="min-w-full divide-y divide-gray-200 shadow rounded-lg overflow-hidden">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">Report ID</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">Student Name</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">Email</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">Feedback</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">Submitted Date</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr *ngFor="let report of reports">
+            <td class="px-6 py-4 text-gray-800">{{ report.reportid }}</td>
+            <td class="px-6 py-4 text-gray-800">{{ report.student.name }}</td>
+            <td class="px-6 py-4 text-gray-600">{{ report.student.email }}</td>
+            <td class="px-6 py-4 text-gray-800">{{ report.feedback }}</td>
+            <td class="px-6 py-4 text-gray-600">
+              {{ report.submittedDate | date:'medium' }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  
+      <div *ngIf="reports.length === 0" class="text-center text-gray-500 mt-6">
+        No reports available.
+      </div>
+    </div>
+  </div>
+  

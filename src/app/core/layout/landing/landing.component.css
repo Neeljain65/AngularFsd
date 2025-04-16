@@ -1,10 +1,12 @@
+/* Base styles */
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  color: white;
-  background-color: black;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: #333;
+  background-color: #f9fafb;
 }
 
+/* Hero section styles */
 .hero {
   position: relative;
   min-height: 100vh;
@@ -12,6 +14,7 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
+  overflow: hidden;
 }
 
 .background {
@@ -19,70 +22,101 @@ body {
   inset: 0;
   background-size: cover;
   background-position: center;
+  z-index: 1;
 }
 
 .overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(10, 10, 20, 0.7);
+  z-index: 2;
 }
 
 .container {
   position: relative;
   z-index: 10;
-  padding: 20px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.content {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .content h1 {
-  color: wheat;
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-  animation: fadeIn 1s ease-in-out;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.025em;
 }
 
 .content p {
-  font-size: 1.5rem;
-  margin-bottom: 30px;
-  color: #ccc;
-  animation: fadeIn 1s ease-in-out 0.3s both;
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  line-height: 1.5;
+  margin-bottom: 2.5rem;
 }
 
-.buttons {
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-  animation: fadeIn 1s ease-in-out 0.6s both;
+/* Service card animations */
+.service-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-button {
-  padding: 15px 30px;
-  font-size: 1rem;
-  font-weight: bold;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: background 0.3s;
+.service-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-.primary {
-  background: #3478f6;
-  color: white;
-  border: none;
+.service-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  display: inline-block;
 }
 
-.primary:hover {
-  background: #285db0;
-}
-
-
-
+/* Animation keyframes */
 @keyframes fadeIn {
   from {
-      opacity: 0;
-      transform: translateY(20px);
+    opacity: 0;
+    transform: translateY(20px);
   }
   to {
-      opacity: 1;
-      transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Animation classes */
+.animate-fade-in {
+  animation: fadeIn 1s ease-out;
+}
+
+.animate-bounce {
+  animation: bounce 2s infinite;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .hero {
+    padding: 3rem 1rem;
+  }
+  
+  .content h1 {
+    font-size: 2rem;
+  }
+  
+  .content p {
+    font-size: 1rem;
   }
 }

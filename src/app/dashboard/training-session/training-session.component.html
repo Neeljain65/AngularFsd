@@ -1,59 +1,353 @@
-<!-- calendar.component.html -->
-<div class="calendar-container">
-  <!-- Left Calendar -->
-  <div class="calendar-left">
-    <div class="calendar-grid">
-      <div
-        *ngFor="let day of daysInMonth"
-        class="day"
-        [ngClass]="{ marked: isMarked(day.date) }"
-        (click)="onDateClick(day.date)">
-        {{ day.day }}
+<div class="p-6 space-y-6">
+  <!-- Header Section -->
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-800">Training Schedule</h1>
+    <p class="text-gray-500">Manage your training sessions and mark student attendance</p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Calendar Section -->
+    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+        Calendar
+      </h2>
+
+      <div class="flex justify-between items-center mb-4">
+        <div class="text-center w-full">
+          <h3 class="text-lg font-medium text-indigo-700">{{ currentMonth }} {{ currentYear }}</h3>
+        </div>
+      </div>
+
+      <!-- Days of Week Header -->
+      <div class="grid grid-cols-7 mb-2 text-center">
+        <div class="py-2 text-xs font-medium text-indigo-600">SUN</div>
+        <div class="py-2 text-xs font-medium text-gray-500">MON</div>
+        <div class="py-2 text-xs font-medium text-gray-500">TUE</div>
+        <div class="py-2 text-xs font-medium text-gray-500">WED</div>
+        <div class="py-2 text-xs font-medium text-gray-500">THU</div>
+        <div class="py-2 text-xs font-medium text-gray-500">FRI</div>
+        <div class="py-2 text-xs font-medium text-indigo-600">SAT</div>
+      </div>
+
+      <!-- Calendar Grid -->
+      <div class="grid grid-cols-7 gap-1">
+        <div *ngFor="let day of daysInMonth" 
+            [ngClass]="{
+                'cursor-pointer hover:bg-indigo-50': day.day !== 0,
+                'opacity-0': day.day === 0
+            }"
+            class="aspect-square flex items-center justify-center transition-all rounded-full relative"
+            (click)="day.day !== 0 && onDateClick(day.date)">
+            
+            <!-- Day Number -->
+            <div [ngClass]="{
+                'bg-indigo-600 text-white': selectedDate === day.date,
+                'bg-indigo-100 text-indigo-800': isMarked(day.date) && selectedDate !== day.date,
+                'text-gray-400': day.day !== 0 && !isMarked(day.date) && day.date < getCurrentDate(),
+                'text-gray-800': day.day !== 0 && !isMarked(day.date) && day.date >= getCurrentDate(),
+                'hover:bg-indigo-50': day.day !== 0 && !isMarked(day.date)
+            }" class="h-9 w-9 flex items-center justify-center text-sm rounded-full transition-all">
+                {{ day.day !== 0 ? day.day : '' }}
+            </div>
+            
+            <!-- Session Indicator Dot -->
+            <div *ngIf="isMarked(day.date)" 
+                [ngClass]="{'bg-white': selectedDate === day.date, 'bg-indigo-600': selectedDate !== day.date}"
+                class="absolute bottom-0 h-1 w-1 rounded-full"></div>
+        </div>
+      </div>
+
+      <!-- Legend -->
+      <div class="mt-6 flex justify-center space-x-6 text-xs text-gray-500">
+        <div class="flex items-center">
+          <div class="h-3 w-3 bg-indigo-100 rounded-full mr-1.5"></div>
+          <span>Has Sessions</span>
+        </div>
+        <div class="flex items-center">
+          <div class="h-3 w-3 bg-indigo-600 rounded-full mr-1.5"></div>
+          <span>Selected</span>
+        </div>
+      </div>
+      
+      <!-- Navigation Controls -->
+      <div class="mt-6 flex justify-between">
+        <button (click)="previousMonth()" class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button (click)="goToCurrentMonth()" class="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-lg text-xs font-medium transition-colors">
+          Today
+        </button>
+        <button (click)="nextMonth()" class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Sessions and Attendance Section -->
+    <div class="lg:col-span-2">
+      <!-- New Session Form -->
+      <div *ngIf="selectedDate && !selectedSessions.length" class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 mb-6">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-xl font-semibold text-gray-800">Add New Session</h2>
+          <div class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium">
+            {{ formatDateForDisplay(selectedDate) }}
+          </div>
+        </div>
+        
+        <form [formGroup]="sessionForm" (ngSubmit)="saveSession()" class="space-y-5">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <label for="time" class="block text-sm font-medium text-gray-700 mb-1">Time</label>
+              <input type="time" id="time" formControlName="time" required 
+                    class="w-full rounded-lg border border-gray-300 shadow-sm px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+            
+            <div>
+              <label for="duration" class="block text-sm font-medium text-gray-700 mb-1">Duration (hours)</label>
+              <input type="number" id="duration" formControlName="duration" min="1" max="8" required 
+                    class="w-full rounded-lg border border-gray-300 shadow-sm px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+            
+            <div>
+              <label for="batchid" class="block text-sm font-medium text-gray-700 mb-1">Batch ID</label>
+              <input type="text" id="batchid" formControlName="batchid" required 
+                    class="w-full rounded-lg border border-gray-300 shadow-sm px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+            
+            <div>
+              <label for="trainerid" class="block text-sm font-medium text-gray-700 mb-1">Trainer ID</label>
+              <input type="number" id="trainerid" formControlName="trainerid" required 
+                    class="w-full rounded-lg border border-gray-300 shadow-sm px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+          </div>
+          
+          <div>
+            <label for="topic" class="block text-sm font-medium text-gray-700 mb-1">Topic</label>
+            <input type="text" id="topic" formControlName="topic" required 
+                  class="w-full rounded-lg border border-gray-300 shadow-sm px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+          </div>
+          
+          <div class="flex justify-end space-x-3 mt-6">
+            <button type="button" (click)="selectedDate = ''" 
+                   class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              Cancel
+            </button>
+            <button type="submit" [disabled]="sessionForm.invalid"
+                   class="px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed">
+              Save Session
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Session List -->
+      <div *ngIf="selectedSessions.length > 0" class="space-y-6">
+        <div class="flex justify-between items-center">
+          <h2 class="text-xl font-semibold text-gray-800">Sessions on {{ formatDateForDisplay(selectedDate) }}</h2>
+          <button (click)="selectedDate = ''" class="text-sm text-indigo-600 hover:underline flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            Clear Selection
+          </button>
+        </div>
+        
+        <div *ngFor="let session of selectedSessions" 
+             class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 transition-all hover:shadow-md">
+          
+          <!-- Session Header -->
+          <div class="flex flex-wrap justify-between items-start gap-4 mb-4">
+            <div>
+              <h3 class="text-lg font-semibold text-indigo-700">{{ session.topic }}</h3>
+              <div class="mt-1 flex items-center text-gray-500 text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {{ session.time }}
+                <span class="mx-2">•</span>
+                <span>{{ session.duration }} hour{{ session.duration > 1 ? 's' : '' }}</span>
+              </div>
+            </div>
+            
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-xs">
+                Batch: {{ session.batchid }}
+              </span>
+              <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs">
+                Trainer ID: {{ session.trainerid }}
+              </span>
+            </div>
+          </div>
+          
+          <!-- Attendance Button -->
+          <div class="flex justify-end">
+            <button (click)="toggleAttendance(session)"
+                   class="flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                   [ngClass]="{
+                     'bg-indigo-600 text-white hover:bg-indigo-700': !isAttendanceVisible(session),
+                     'bg-red-100 text-red-700 hover:bg-red-200': isAttendanceVisible(session)
+                   }">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+              {{ isAttendanceVisible(session) ? 'Hide Attendance' : 'Mark Attendance' }}
+            </button>
+          </div>
+          
+          <!-- Attendance Panel -->
+          <div *ngIf="isAttendanceVisible(session)" class="mt-6 border-t border-gray-100 pt-5">
+            <h3 class="text-lg font-medium text-gray-800 mb-4">Student Attendance</h3>
+            
+            <!-- Already Marked Attendance -->
+            <div *ngIf="attendanceMarked[session.sessionid]" class="space-y-3">
+              <div class="bg-green-50 border border-green-100 rounded-lg p-3 mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span class="text-green-700">Attendance already marked for this session</span>
+              </div>
+              
+              <div class="max-h-96 overflow-y-auto pr-2 space-y-2 custom-scrollbar">
+                <div *ngFor="let student of fetchedAttendance[session.sessionid]" 
+                     class="flex justify-between items-center p-3 rounded-lg"
+                     [ngClass]="student.present ? 'bg-green-50' : 'bg-red-50'">
+                  <div class="flex items-center">
+                    <div class="h-8 w-8 rounded-full flex items-center justify-center mr-3"
+                         [ngClass]="student.present ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'">
+                      {{ student.name.charAt(0).toUpperCase() }}
+                    </div>
+                    <div class="font-medium">{{ student.name }}</div>
+                  </div>
+                  
+                  <div class="flex items-center">
+                    <span *ngIf="student.present" class="flex items-center text-green-600 font-medium">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                      </svg>
+                      Present
+                    </span>
+                    <span *ngIf="!student.present" class="flex items-center text-red-600 font-medium">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                      Absent
+                    </span>
+                    <div *ngIf="!student.present" class="ml-3">
+                      <label class="inline-flex items-center">
+                        <input type="checkbox" [(ngModel)]="student.present" class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="flex justify-end mt-5">
+                <button (click)="updateAttendance(session)" 
+                       class="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Save Updates
+                </button>
+              </div>
+            </div>
+            
+            <!-- First Time Marking Attendance -->
+            <div *ngIf="!attendanceMarked[session.sessionid]">
+              <!-- Loading State -->
+              <div *ngIf="!studentsForAttendance[session.sessionid] || studentsForAttendance[session.sessionid].length === 0" 
+                   class="flex justify-center items-center p-8">
+                <div class="text-center">
+                  <div class="w-10 h-10 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+                  <p class="mt-2 text-gray-600">Loading students...</p>
+                </div>
+              </div>
+              
+              <!-- Student List -->
+              <div *ngIf="studentsForAttendance[session.sessionid] && studentsForAttendance[session.sessionid].length > 0" 
+                   class="max-h-96 overflow-y-auto pr-2 space-y-2 custom-scrollbar">
+                
+                <div class="mb-4 flex justify-between">
+                  <span class="text-sm text-gray-500">Select students who are present</span>
+                  <button (click)="toggleAllStudents(session.sessionid)" class="text-xs text-indigo-600 hover:underline">
+                    {{ areAllStudentsChecked(session.sessionid) ? 'Unselect All' : 'Select All' }}
+                  </button>
+                </div>
+                
+                <div *ngFor="let student of studentsForAttendance[session.sessionid]" class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                  <div class="flex items-center">
+                    <div class="h-8 w-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center mr-3">
+                      {{ student.name.charAt(0).toUpperCase() }}
+                    </div>
+                    <div class="font-medium">{{ student.name }}</div>
+                  </div>
+                  <label class="inline-flex items-center">
+                    <input type="checkbox" [(ngModel)]="student.present" class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    <span class="ml-2 text-sm">Present</span>
+                  </label>
+                </div>
+              </div>
+              
+              <div *ngIf="studentsForAttendance[session.sessionid] && studentsForAttendance[session.sessionid].length > 0" class="flex justify-end mt-5">
+                <button (click)="saveAttendance(session)" 
+                       class="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Save Attendance
+                </button>
+              </div>
+              
+              <!-- No Students -->
+              <div *ngIf="studentsForAttendance[session.sessionid] && studentsForAttendance[session.sessionid].length === 0" 
+                   class="text-center py-8 bg-gray-50 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-400 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                <p class="text-gray-600">No students are assigned to this batch</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- No Date Selected State -->
+      <div *ngIf="!selectedDate" class="bg-white rounded-xl shadow-sm p-8 border border-gray-100 text-center">
+        <div class="h-20 w-20 bg-indigo-100 rounded-full mx-auto flex items-center justify-center mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <h2 class="text-xl font-semibold text-gray-700 mb-2">Select a Date</h2>
+        <p class="text-gray-500 mb-6">Choose a date from the calendar to view sessions or create a new one</p>
       </div>
     </div>
   </div>
-
-  <!-- Right Side -->
-  <div class="calendar-right">
-    <ng-container *ngIf="selectedSessions.length > 0">
-      <h3>Sessions on {{ selectedDate }}</h3>
-      <div *ngFor="let session of selectedSessions" class="session-card">
-        <p><strong>Time:</strong> {{ session.time }}</p>
-        <p><strong>Batch:</strong> {{ session.batchid }}</p>
-        <p><strong>Trainer:</strong> {{ session.trainerid }}</p>
-        <p><strong>Topic:</strong> {{ session.topic }}</p>
-        <p><strong>Duration:</strong> {{ session.duration }} hour(s)</p>
-      </div>
-    </ng-container>
-
-    <!-- Modal Form Card -->
-    <ng-container *ngIf="selectedSessions.length === 0 && selectedDate">
-      <div class="modal-overlay">
-        <div class="modal-card">
-          <h3>Add Session for {{ selectedDate }}</h3>
-          <form [formGroup]="sessionForm" (ngSubmit)="saveSession()">
-            <label>Time:
-              <input type="time" formControlName="time" required />
-            </label>
-            <label>Batch No:
-              <input type="text" formControlName="batchid" required />
-            </label>
-            <label>Trainer ID:
-              <input type="number" formControlName="trainerid" required />
-            </label>
-            <label>Topic:
-              <input type="text" formControlName="topic" required />
-            </label>
-            <label>Duration (hrs):
-              <input type="number" formControlName="duration" required />
-            </label>
-            <div class="modal-actions">
-              <button type="button" class="cancel-btn" (click)="selectedDate=''">Cancel</button>
-              <button type="submit" [disabled]="sessionForm.invalid" class="save-btn">Save</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </ng-container>
-  </div>
 </div>
+
+<style>
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 8px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 8px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #a3a3a3;
+  }
+</style>

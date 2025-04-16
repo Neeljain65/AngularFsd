@@ -1,0 +1,38 @@
+<!-- add-report.component.html -->
+
+<div class="container mx-auto p-4">
+    <h2 class="text-2xl font-bold mb-4">Add Report</h2>
+    <form [formGroup]="reportForm" (ngSubmit)="onSubmit()" class="space-y-4">
+  
+      <!-- Student ID -->
+      
+  
+      <!-- Feedback -->
+      <div class="form-group">
+        <label for="feedback" class="block text-sm font-medium">Feedback</label>
+        <textarea id="feedback" formControlName="feedback" rows="4" class="mt-1 p-2 border border-gray-300 rounded w-full"></textarea>
+        <div *ngIf="reportForm.get('feedback')?.invalid && reportForm.get('feedback')?.touched" class="text-red-500 text-xs mt-1">
+          Feedback is required and must be less than 500 characters.
+        </div>
+      </div>
+  
+      <!-- Submit Button -->
+      <button type="submit" [disabled]="reportForm.invalid" class="bg-blue-500 text-white px-4 py-2 rounded mt-4">
+        Submit Report
+      </button>
+  
+    </form>
+  <button class="mt-5 bg-gray-800 text-white p-2 rounded-md" (click)="viewOldReports()" (click)="setTab('true')">View Previous Reports</button>
+    <div *ngIf="selectedTab=='true'" class="flex flex-wrap overflow-y-scroll h-80">
+      <div *ngFor="let report of reports" class="bg-white shadow-md rounded-lg p-4 m-2 w-full sm:w-1/2 lg:w-1/3">
+        <h3 class="text-lg font-semibold">Report ID: {{ report.reportid }}</h3>
+        <p><strong>Student Name:</strong> {{ report.student.name }}</p>
+        <p><strong>Email:</strong> {{ report.student.email }}</p>
+        <p><strong>Feedback:</strong> {{ report.feedback }}</p>
+        <p><strong>Submitted Date:</strong> {{ report.submittedDate | date:'medium' }}</p>
+      </div>
+      <div *ngIf="reports.length === 0" class="text-center text-gray-500 mt-6 w-full">
+        No reports available.
+    </div>
+  </div>
+  

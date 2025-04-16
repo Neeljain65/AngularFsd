@@ -1,8 +1,7 @@
-
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
     <div *ngFor="let session of sessions" class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition duration-300">
       <h2 class="text-xl font-bold mb-2">{{ session.topic }}</h2>
-      <p class="text-gray-600 text-sm mb-4">Date: {{ session.date }} | Duration: {{ session.duration }} mins</p>
+      <p class="text-gray-600 text-sm mb-4">Date: {{ session.date }} | Duration: {{ session.duration }} hours</p>
       
       <div class="flex items-center gap-2 mb-3">
         <span class="font-semibold">Trainer:</span>
@@ -15,10 +14,11 @@
       </div>
   
       <div class="text-gray-600 text-sm mb-4">
-        Time: {{ session.time }} 
+        Time: {{ formatTime(session.time) }}
       </div>
-  
-     
     </div>
-  </div>
-  
+    
+    <div *ngIf="sessions.length === 0" class="col-span-3 text-center py-8">
+      <p class="text-gray-500">No sessions available for this student.</p>
+    </div>
+</div>

@@ -1,18 +1,102 @@
-<nav *ngIf="!isLoggedIn" class="navbar flex items-center justify-between bg-dark bg-gray-800 p-2">
-  <h1 class="text-white text-2xl font-semibold">
-    <a href="index.html"><i class="fas fa-code"></i> {{ title }} </a>
-  </h1>
-  <ul class="flex space-x-6 ">
-    <li><a href="#home" class="text-white hover:text-gray-400">Home</a></li>
-    <li><a href="#services" class="text-white hover:text-gray-400">Services</a></li>
-    <li><a href="#about" class="text-white hover:text-gray-400">About Us</a></li>
-    <li><a href="#faq" class="text-white hover:text-gray-400">FAQ</a></li>
-  </ul>
-  <div *ngIf="!isLoggedIn" class="auth-buttons  flex  space-x-4">
-    <a href="/auth/student" class="button bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">Student Login</a>
-    <a href="/auth/login" class="button bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600">Admin Login</a>
-  </div>
-  <div *ngIf="isLoggedIn" class="auth-buttons mt-4">
-    <a (click)="logout()" class="button bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600">Logout</a>
-  </div>
-</nav>
+<div class="relative z-50">
+  <nav class="bg-gradient-to-r from-indigo-900 to-purple-900 shadow-md">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo and Brand Name -->
+        <div class="flex-shrink-0 flex items-center">
+          <div class="h-10 w-10 bg-indigo-500 rounded-lg flex items-center justify-center shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h1 class="text-white text-2xl font-bold ml-2">{{ title || 'Training Portal' }}</h1>
+        </div>
+        
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden">
+          <button (click)="toggleMenu()" class="text-white hover:text-gray-200 focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+        
+        <!-- Desktop Navigation -->
+        <div class="hidden md:block">
+          <div class="flex items-center space-x-6">
+            <a *ngIf="!isLoggedIn" href="#home" class="text-white text-sm font-medium hover:text-indigo-200 transition duration-150">Home</a>
+            <a *ngIf="!isLoggedIn" href="#services" class="text-white text-sm font-medium hover:text-indigo-200 transition duration-150">Services</a>
+            <a *ngIf="!isLoggedIn" href="#about" class="text-white text-sm font-medium hover:text-indigo-200 transition duration-150">About Us</a>
+            <a *ngIf="!isLoggedIn" href="#faq" class="text-white text-sm font-medium hover:text-indigo-200 transition duration-150">FAQ</a>
+            
+            <!-- Auth Buttons -->
+            <div *ngIf="!isLoggedIn" class="flex items-center space-x-3">
+              <a href="/auth/student" class="px-4 py-2 rounded-md bg-white text-indigo-700 hover:bg-indigo-100 text-sm font-medium transition duration-150">
+                Student Login
+              </a>
+              <a href="/auth/login" class="px-4 py-2 rounded-md bg-indigo-500 text-white hover:bg-indigo-600 text-sm font-medium transition duration-150">
+                Trainer Login
+              </a>
+            </div>
+            
+            <!-- Logged In User Menu -->
+            <div *ngIf="isLoggedIn" class="relative">
+              <button (click)="toggleUserMenu()" class="flex items-center space-x-2 text-white focus:outline-none">
+                <div class="h-8 w-8 bg-indigo-500 rounded-full flex items-center justify-center">
+                  <span class="text-sm font-medium">{{ getUserInitials() }}</span>
+                </div>
+                <span class="text-sm font-medium">{{ getUsername() }}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              
+              <!-- User Dropdown Menu -->
+              <div *ngIf="isUserMenuOpen" 
+                  class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 ring-1 ring-black ring-opacity-5">
+                
+                <div class="border-t border-gray-100"></div>
+                <a (click)="logout()" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 cursor-pointer">
+                  Logout
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Mobile Menu (Hidden by default) -->
+    <div *ngIf="isMobileMenuOpen" class="md:hidden bg-indigo-800">
+      <div class="px-2 pt-2 pb-3 space-y-1">
+        <a *ngIf="!isLoggedIn" href="#home" class="block px-3 py-2 text-white text-base font-medium hover:bg-indigo-700 rounded-md">Home</a>
+        <a *ngIf="!isLoggedIn" href="#services" class="block px-3 py-2 text-white text-base font-medium hover:bg-indigo-700 rounded-md">Services</a>
+        <a *ngIf="!isLoggedIn" href="#about" class="block px-3 py-2 text-white text-base font-medium hover:bg-indigo-700 rounded-md">About Us</a>
+        <a *ngIf="!isLoggedIn" href="#faq" class="block px-3 py-2 text-white text-base font-medium hover:bg-indigo-700 rounded-md">FAQ</a>
+        
+        <div *ngIf="isLoggedIn" class="space-y-1">
+          <a href="/dashboard" class="block px-3 py-2 text-white text-base font-medium hover:bg-indigo-700 rounded-md">Dashboard</a>
+          <a href="/profile" class="block px-3 py-2 text-white text-base font-medium hover:bg-indigo-700 rounded-md">Profile</a>
+          <a href="/settings" class="block px-3 py-2 text-white text-base font-medium hover:bg-indigo-700 rounded-md">Settings</a>
+        </div>
+        
+        <!-- Auth Buttons for Mobile -->
+        <div class="pt-4 pb-3 border-t border-indigo-700">
+          <div *ngIf="!isLoggedIn" class="flex flex-col space-y-2">
+            <a href="/auth/student" class="block w-full px-4 py-2 text-center rounded-md bg-white text-indigo-700 hover:bg-indigo-100 text-sm font-medium transition duration-150">
+              Student Login
+            </a>
+            <a href="/auth/login" class="block w-full px-4 py-2 text-center rounded-md bg-indigo-500 text-white hover:bg-indigo-600 text-sm font-medium transition duration-150">
+              Trainer Login
+            </a>
+          </div>
+          <div *ngIf="isLoggedIn" class="space-y-1">
+            <button (click)="logout()" class="block w-full text-left px-3 py-2 text-base font-medium text-white bg-red-600 hover:bg-red-700 rounded-md">
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>

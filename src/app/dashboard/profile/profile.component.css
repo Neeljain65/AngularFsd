@@ -1,0 +1,58 @@
+/* Profile component styles */
+.rounded-avatar {
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+}
+
+/* For experience timeline */
+.timeline-item {
+  position: relative;
+  padding-left: 2.5rem;
+  padding-bottom: 3rem;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: #e5edff;
+}
+
+.timeline-item::after {
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: 0;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #6366f1;
+}
+
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+/* Card hover effects */
+.action-card {
+  transition: all 0.3s ease;
+}
+
+.action-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Ensure buttons have proper hover state */
+button {
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}

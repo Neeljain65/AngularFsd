@@ -50,43 +50,270 @@
       color: #666;
   }
 </style>
-    <section id="home" class="hero">
-        <div class="background" style="background-image: url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
-            <div class="overlay"></div>
-        </div>
-        <div class="container">
-            <div class="content">
-                <h1>Elevate Your Skills with Our Training Sessions</h1>
-                <p>Join our comprehensive training programs designed to help you excel in your career.</p>
 
-            </div>
-        </div>
-    </section>
-    <section id="services" class="services-section">
-      <div class="container">
-          <h2 class="section-title">Our Services</h2>
-          <div class="services-grid">
-              <div class="service-card">
-                  <div class="service-icon">📚</div>
-                  <h3 class="service-title">Online Courses</h3>
-                  <p class="service-description">Access our library of courses anytime, anywhere. Learn at your own pace with our comprehensive curriculum.</p>
-              </div>
-              <div class="service-card">
-                  <div class="service-icon">🎓</div>
-                  <h3 class="service-title">Live Training</h3>
-                  <p class="service-description">Join interactive live sessions with industry experts and get real-time feedback on your progress.</p>
-              </div>
-              <div class="service-card">
-                  <div class="service-icon">🏅</div>
-                  <h3 class="service-title">Certification</h3>
-                  <p class="service-description">Earn recognized certifications that boost your resume and validate your skills in the job market.</p>
-              </div>
-              <div class="service-card">
-                  <div class="service-icon">👥</div>
-                  <h3 class="service-title">Community Support</h3>
-                  <p class="service-description">Connect with fellow learners, share experiences, and grow together in our supportive community.</p>
-              </div>
-          </div>
+<!-- Hero Section -->
+<section id="home" class="min-h-screen relative flex items-center justify-center text-center">
+  <!-- Background Image with Overlay -->
+  <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" 
+       style="background-image: url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80')">
+    <div class="absolute inset-0 bg-gray-900 bg-opacity-70"></div>
+  </div>
+  
+  <!-- Hero Content -->
+  <div class="container mx-auto px-6 relative z-10">
+    <div class="max-w-3xl mx-auto animate-fade-in-up">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+        Elevate Your Skills with Our Training Sessions
+      </h1>
+      <p class="text-xl md:text-2xl text-gray-200 mb-10">
+        Join our comprehensive training programs designed to help you excel in your career.
+      </p>
+      
+      <!-- CTA Buttons -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="#services" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-medium rounded-lg transition duration-300 transform hover:scale-105">
+          Explore Services
+        </a>
+        <a href="/auth/student" class="px-8 py-3 bg-transparent border-2 border-white text-white text-lg font-medium rounded-lg hover:bg-white hover:text-indigo-900 transition duration-300 transform hover:scale-105">
+          Join Now
+        </a>
       </div>
-  </section>
+      
+      <!-- Statistics -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 text-white">
+        <div class="p-4 rounded-lg  bg-opacity-10 backdrop-filter backdrop-blur-sm">
+          <div class="text-4xl font-bold mb-2">{{ 5000 | number }}+</div>
+          <div class="text-gray-200">Students Trained</div>
+        </div>
+        <div class="p-4 rounded-lg  bg-opacity-10 backdrop-filter backdrop-blur-sm">
+          <div class="text-4xl font-bold mb-2">{{ 50 | number }}+</div>
+          <div class="text-gray-200">Expert Trainers</div>
+        </div>
+        <div class="p-4 rounded-lg bg-opacity-10 backdrop-filter backdrop-blur-sm">
+          <div class="text-4xl font-bold mb-2">{{ 95 | number }}%</div>
+          <div class="text-gray-200">Success Rate</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Scroll Down Indicator -->
+  <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+    <a href="#services" class="text-white">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+      </svg>
+    </a>
+  </div>
+</section>
+
+<!-- Services Section -->
+<section id="services" class="py-20 bg-gray-50">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Our Services</h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+        We provide comprehensive training solutions to help you achieve your career goals.
+      </p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <!-- Service Card 1 -->
+      <div class="bg-white rounded-xl shadow-sm hover:shadow-lg p-6 transition duration-300 transform hover:-translate-y-2 border border-gray-100">
+        <div class="text-5xl mb-6 text-indigo-600">📚</div>
+        <h3 class="text-xl font-bold text-gray-800 mb-3">Online Courses</h3>
+        <p class="text-gray-600 mb-4">
+          Access our library of courses anytime, anywhere. Learn at your own pace with our comprehensive curriculum.
+        </p>
+        <a href="#" class="text-indigo-600 font-medium hover:text-indigo-800 transition-colors flex items-center">
+          Learn more
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+      
+      <!-- Service Card 2 -->
+      <div class="bg-white rounded-xl shadow-sm hover:shadow-lg p-6 transition duration-300 transform hover:-translate-y-2 border border-gray-100">
+        <div class="text-5xl mb-6 text-indigo-600">🎓</div>
+        <h3 class="text-xl font-bold text-gray-800 mb-3">Live Training</h3>
+        <p class="text-gray-600 mb-4">
+          Join interactive live sessions with industry experts and get real-time feedback on your progress.
+        </p>
+        <a href="#" class="text-indigo-600 font-medium hover:text-indigo-800 transition-colors flex items-center">
+          Learn more
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+      
+      <!-- Service Card 3 -->
+      <div class="bg-white rounded-xl shadow-sm hover:shadow-lg p-6 transition duration-300 transform hover:-translate-y-2 border border-gray-100">
+        <div class="text-5xl mb-6 text-indigo-600">🏅</div>
+        <h3 class="text-xl font-bold text-gray-800 mb-3">Certification</h3>
+        <p class="text-gray-600 mb-4">
+          Earn recognized certifications that boost your resume and validate your skills in the job market.
+        </p>
+        <a href="#" class="text-indigo-600 font-medium hover:text-indigo-800 transition-colors flex items-center">
+          Learn more
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+      
+      <!-- Service Card 4 -->
+      <div class="bg-white rounded-xl shadow-sm hover:shadow-lg p-6 transition duration-300 transform hover:-translate-y-2 border border-gray-100">
+        <div class="text-5xl mb-6 text-indigo-600">👥</div>
+        <h3 class="text-xl font-bold text-gray-800 mb-3">Community Support</h3>
+        <p class="text-gray-600 mb-4">
+          Connect with fellow learners, share experiences, and grow together in our supportive community.
+        </p>
+        <a href="#" class="text-indigo-600 font-medium hover:text-indigo-800 transition-colors flex items-center">
+          Learn more
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="py-20 bg-white">
+  <div class="container mx-auto px-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div class="order-2 lg:order-1">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">About Our Training Portal</h2>
+        <p class="text-gray-600 mb-6">
+          Founded in , Training Portal has been at the forefront of education technology, providing innovative learning solutions to students worldwide.
+        </p>
+        <p class="text-gray-600 mb-6">
+          Our mission is to empower individuals with the skills they need to succeed in today's competitive job market through accessible, high-quality training programs.
+        </p>
+        
+        <div class="grid grid-cols-2 gap-4 mb-8">
+          <div class="flex items-start">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            <span class="text-gray-700">Expert Trainers</span>
+          </div>
+          <div class="flex items-start">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            <span class="text-gray-700">Flexible Learning</span>
+          </div>
+          <div class="flex items-start">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            <span class="text-gray-700">Industry-Aligned</span>
+          </div>
+          <div class="flex items-start">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600 mr-2 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            <span class="text-gray-700">24/7 Support</span>
+          </div>
+        </div>
+        
+        <a href="#" class="inline-block px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition duration-300">
+          Learn More About Us
+        </a>
+      </div>
+      
+      <div class="order-1 lg:order-2">
+        <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+             alt="About Training Portal" 
+             class="rounded-xl shadow-lg w-full h-auto object-cover" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ Section -->
+<section id="faq" class="py-20 bg-gray-50">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Frequently Asked Questions</h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+        Find answers to common questions about our training programs.
+      </p>
+    </div>
+    
+    <div class="max-w-3xl mx-auto space-y-6">
+      <!-- FAQ Item 1 -->
+      <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">How do I get started with a course?</h3>
+        <p class="text-gray-600">
+          Getting started is easy! Simply create an account, browse our course catalog, and enroll in the course that interests you. Once enrolled, you'll have immediate access to all course materials.
+        </p>
+      </div>
+      
+      <!-- FAQ Item 2 -->
+      <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">Are certifications included in the course fee?</h3>
+        <p class="text-gray-600">
+          Yes, certifications are included in the course fee for all our premium courses. Upon successful completion of the course and assessments, you'll receive a digital certificate that you can share on your professional profiles.
+        </p>
+      </div>
+      
+      <!-- FAQ Item 3 -->
+      <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">What support options are available?</h3>
+        <p class="text-gray-600">
+          We offer comprehensive support through multiple channels: email support, live chat, community forums, and scheduled instructor office hours. Our support team is available 24/7 to assist you with any questions or issues.
+        </p>
+      </div>
+      
+      <!-- FAQ Item 4 -->
+      <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">Can I access courses on mobile devices?</h3>
+        <p class="text-gray-600">
+          Absolutely! Our learning platform is fully responsive and works seamlessly across all devices including smartphones, tablets, laptops, and desktop computers. You can learn anytime, anywhere.
+        </p>
+      </div>
+    </div>
+    
+    <div class="text-center mt-12">
+      <a href="#" class="inline-block px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition duration-300">
+        View All FAQs
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-16 bg-indigo-900 text-white">
+  <div class="container mx-auto px-6 text-center">
+    <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Start Your Learning Journey?</h2>
+    <p class="text-xl text-indigo-200 mb-10 max-w-3xl mx-auto">
+      Join thousands of successful students who have transformed their careers with our training programs.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="/auth/student" class="px-8 py-3 bg-white text-indigo-900 text-lg font-medium rounded-lg transition duration-300 transform hover:scale-105 hover:bg-gray-100">
+        Sign Up as Student
+      </a>
+      <a href="/auth/login" class="px-8 py-3 bg-transparent border-2 border-white text-white text-lg font-medium rounded-lg hover:bg-white hover:text-indigo-900 transition duration-300 transform hover:scale-105">
+        Login as Trainer
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Custom Animation Style -->
+<style>
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .animate-fade-in-up {
+    animation: fadeInUp 1s ease-out;
+  }
+</style>
 

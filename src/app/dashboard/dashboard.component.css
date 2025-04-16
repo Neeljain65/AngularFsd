@@ -114,3 +114,63 @@ h2 {
 .card a:hover {
   text-decoration: underline;
 }
+
+/* Base styling for dashboard */
+.h-screen {
+  height: 100vh;
+}
+
+/* Custom scrollbar for the content area */
+main::-webkit-scrollbar {
+  width: 8px;
+}
+
+main::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+main::-webkit-scrollbar-thumb {
+  background-color: #6366f1;
+  border-radius: 4px;
+}
+
+main::-webkit-scrollbar-thumb:hover {
+  background-color: #4f46e5;
+}
+
+/* Calendar styling */
+.calendar-day {
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.calendar-day:hover {
+  background-color: #e0e7ff;
+  color: #4f46e5;
+}
+
+.calendar-day.active {
+  background-color: #6366f1;
+  color: white;
+}
+
+.calendar-day.has-session {
+  border: 2px solid #6366f1;
+  font-weight: 600;
+}
+
+/* Animation for cards */
+.card-animation {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-animation:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}

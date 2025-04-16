@@ -1,0 +1,246 @@
+<div class="p-8">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-800 mb-2">Academic Statistics</h1>
+    <p class="text-gray-600">Detailed analytics about your academic performance</p>
+  </div>
+
+  <!-- Loading indicator -->
+  <div *ngIf="isLoading" class="flex justify-center items-center h-64">
+    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+  </div>
+
+  <div *ngIf="!isLoading" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Left column -->
+    <div class="lg:col-span-2 space-y-6">
+      <!-- Attendance overview card -->
+      <div class="bg-white rounded-xl shadow p-6">
+        <h2 class="text-xl font-bold mb-4 text-gray-800">Attendance Overview</h2>
+        
+        <div class="mb-6">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-gray-600">Overall Attendance</span>
+            <span [class]="getAttendanceClass(attendanceData?.percentage || 0)" class="font-bold">
+              {{ attendanceData?.percentage || 0 }}%
+            </span>
+          </div>
+          
+          <div class="bg-gray-200 h-3 rounded-full">
+            <div class="h-full rounded-full bg-gradient-to-r from-blue-500 to-indigo-600" 
+                 [style.width.%]="attendanceData?.percentage || 0"></div>
+          </div>
+          
+          <div class="mt-2 text-sm text-gray-500">
+            Attended {{ attendanceData?.attendedClasses || 0 }} out of {{ attendanceData?.totalClasses || 0 }} classes
+          </div>
+        </div>
+        
+        <h3 class="font-semibold text-gray-800 mb-3">Monthly Attendance</h3>
+        
+        <div class="grid grid-cols-6 gap-2 h-32">
+          <div *ngFor="let month of attendancePerMonth" class="flex flex-col items-center">
+            <div class="flex-grow flex items-end w-full">
+              <div class="w-full bg-indigo-600 opacity-80 rounded-t" 
+                   [style.height.%]="month.percentage"></div>
+            </div>
+            <span class="text-xs font-medium mt-1 text-gray-600">{{ month.month }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Session distribution -->
+      <div class="bg-white rounded-xl shadow p-6">
+        <h2 class="text-xl font-bold mb-4 text-gray-800">Session Distribution</h2>
+        
+        <div class="grid sm:grid-cols-2 gap-6">
+          <!-- By trainer -->
+          <div>
+            <h3 class="font-semibold text-gray-800 mb-3">Sessions by Trainer</h3>
+            <div class="space-y-3">
+              <div *ngFor="let trainerData of sessionsPerTrainer" class="bg-gray-50 p-3 rounded">
+                <div class="flex justify-between items-center">
+                  <span class="font-medium text-gray-700">{{ trainerData.trainer }}</span>
+                  <span class="text-indigo-600 font-medium">{{ trainerData.count }} sessions</span>
+                </div>
+                <div class="mt-1 bg-gray-200 h-2 rounded-full">
+                  <div class="h-full rounded-full bg-indigo-600" 
+                       [style.width.%]="(trainerData.count / allSessions.length) * 100"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- By topic -->
+          <div>
+            <h3 class="font-semibold text-gray-800 mb-3">Topics Distribution</h3>
+            <div class="space-y-3">
+              <div *ngFor="let topicData of topicsDistribution" class="bg-gray-50 p-3 rounded">
+                <div class="flex justify-between items-center">
+                  <span class="font-medium text-gray-700">{{ topicData.topic }}</span>
+                  <span class="text-indigo-600 font-medium">{{ topicData.count }} sessions</span>
+                </div>
+                <div class="mt-1 bg-gray-200 h-2 rounded-full">
+                  <div class="h-full rounded-full bg-indigo-600" 
+                       [style.width.%]="(topicData.count / allSessions.length) * 100"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Session completion -->
+      <div class="bg-white rounded-xl shadow p-6">
+        <h2 class="text-xl font-bold mb-4 text-gray-800">Session Completion</h2>
+        
+        <div class="flex items-center justify-center mb-6">
+          <div class="w-40 h-40 rounded-full border-8 border-indigo-100 flex items-center justify-center">
+            <div class="text-center">
+              <div class="text-3xl font-bold text-indigo-600">
+                {{ completedSessions.length }}
+              </div>
+              <div class="text-sm text-gray-500">Completed</div>
+              <div class="text-xs text-gray-400">of {{ allSessions.length }} total</div>
+            </div>
+          </div>
+          
+          <div class="ml-8">
+            <div class="mb-3">
+              <div class="flex justify-between mb-1">
+                <span class="text-sm font-medium text-gray-700">Completed</span>
+                <span class="text-sm text-gray-600">{{ completedSessions.length }}</span>
+              </div>
+              <div class="h-2 bg-gray-200 rounded-full">
+                <div class="h-full bg-green-500 rounded-full" 
+                     [style.width.%]="(completedSessions.length / allSessions.length) * 100"></div>
+              </div>
+            </div>
+            
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-sm font-medium text-gray-700">Upcoming</span>
+                <span class="text-sm text-gray-600">{{ upcomingSessions.length }}</span>
+              </div>
+              <div class="h-2 bg-gray-200 rounded-full">
+                <div class="h-full bg-blue-500 rounded-full" 
+                     [style.width.%]="(upcomingSessions.length / allSessions.length) * 100"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Recent completed sessions -->
+        <h3 class="font-semibold text-gray-800 mb-3">Recently Completed Sessions</h3>
+        <div class="space-y-2">
+          <div *ngFor="let session of completedSessions.slice(0, 3)" class="p-3 bg-gray-50 rounded-lg">
+            <div class="font-medium text-gray-800">{{ session.topic }}</div>
+            <div class="text-sm text-gray-500">{{ session.date }} | {{ formatTime(session.time) }}</div>
+            <div class="text-sm text-gray-600">
+              {{ session.trainer.trainername }} - {{ session.batch.type }}
+            </div>
+          </div>
+          
+          <div *ngIf="completedSessions.length === 0" class="text-center text-gray-500 py-4">
+            No completed sessions available.
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Right column -->
+    <div class="space-y-6">
+      <!-- Student profile card -->
+      <div class="bg-white rounded-xl shadow p-6">
+        <div class="flex flex-col items-center mb-4">
+          <div class="h-20 w-20 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-2xl font-bold flex items-center justify-center mb-2">
+            <!-- {{ student?.name.charAt(0) || 'S' }} -->
+          </div>
+          <h3 class="text-xl font-bold">{{ student?.name || 'Student' }}</h3>
+          <p class="text-gray-500">{{ student?.feild || 'Field not specified' }}</p>
+        </div>
+        
+        <div class="border-t border-gray-100 pt-4 mt-4">
+          <div class="grid grid-cols-2 gap-3">
+            <div class="bg-gray-50 p-3 rounded">
+              <div class="text-xs text-gray-500">Email</div>
+              <div class="font-medium text-gray-800 truncate">{{ student?.email || 'N/A' }}</div>
+            </div>
+            
+            <div class="bg-gray-50 p-3 rounded">
+              <div class="text-xs text-gray-500">Age</div>
+              <div class="font-medium text-gray-800">{{ student?.age || 'N/A' }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Performance insights -->
+      <div class="bg-white rounded-xl shadow p-6">
+        <h2 class="text-xl font-bold mb-4 text-gray-800">Performance Insights</h2>
+        
+        <div class="mb-4">
+          <h3 class="font-medium text-gray-800 mb-2">Attendance Status</h3>
+          <div class="flex items-center">
+            <div class="h-14 w-14 rounded-full border-4" 
+                 [ngClass]="{
+                   'border-green-500 text-green-600': (attendanceData?.percentage || 0) >= 90,
+                   'border-blue-500 text-blue-600': (attendanceData?.percentage || 0) >= 75 && (attendanceData?.percentage || 0) < 90,
+                   'border-yellow-500 text-yellow-600': (attendanceData?.percentage || 0) >= 60 && (attendanceData?.percentage || 0) < 75,
+                   'border-red-500 text-red-600': (attendanceData?.percentage || 0) < 60
+                 }"
+                 class="flex items-center justify-center font-bold">
+              {{ attendanceData?.percentage || 0 }}%
+            </div>
+            <div class="ml-4">
+              <div class="font-medium" [class]="getAttendanceClass(attendanceData?.percentage || 0)">
+                {{ getAttendanceStatus(attendanceData?.percentage || 0) }}
+              </div>
+              <div class="text-sm text-gray-500">Attendance status</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="space-y-3">
+          <div class="p-3 bg-green-50 rounded-lg border border-green-100">
+            <div class="font-medium text-green-700">Strengths</div>
+            <ul class="mt-1 text-sm text-green-600 list-disc pl-5">
+              <li *ngIf="(attendanceData?.percentage || 0) > 80">Consistent attendance</li>
+              <li>Active participation in sessions</li>
+              <li>Regular engagement with course materials</li>
+            </ul>
+          </div>
+          
+          <div class="p-3 bg-yellow-50 rounded-lg border border-yellow-100">
+            <div class="font-medium text-yellow-700">Areas for Improvement</div>
+            <ul class="mt-1 text-sm text-yellow-600 list-disc pl-5">
+              <li *ngIf="(attendanceData?.percentage || 0) < 80">Improve attendance consistency</li>
+              <li>Complete more practice exercises</li>
+              <li>Participate in more collaborative activities</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Upcoming sessions at a glance -->
+      <div class="bg-white rounded-xl shadow p-6">
+        <h2 class="text-lg font-bold mb-3 text-gray-800">Upcoming Sessions</h2>
+        
+        <div class="space-y-2">
+          <div *ngFor="let session of upcomingSessions.slice(0, 3)" class="p-3 bg-gray-50 rounded-lg">
+            <div class="font-medium text-gray-800">{{ session.topic }}</div>
+            <div class="text-sm text-gray-500">{{ session.date }} | {{ formatTime(session.time) }}</div>
+          </div>
+          
+          <div *ngIf="upcomingSessions.length === 0" class="text-center text-gray-500 py-2">
+            No upcoming sessions.
+          </div>
+          
+          <div *ngIf="upcomingSessions.length > 3" class="text-center mt-2">
+            <button class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
+              View all {{ upcomingSessions.length }} upcoming sessions
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
