@@ -6,10 +6,9 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AllsessionsComponent } from './allsessions/allsessions.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ReportComponent } from './reports/reports.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StatsComponent } from './stats/stats.component';
-// import { ReportsComponent } from './reports/reports.component';
+
 @NgModule({
   declarations: [
     UpcomingComponent,
@@ -20,7 +19,10 @@ import { StatsComponent } from './stats/stats.component';
     StatsComponent
   ],
   imports: [
-    CommonModule, HttpClientModule, FormsModule,  ReactiveFormsModule
+    CommonModule, 
+    HttpClientModule, 
+    FormsModule,  
+    ReactiveFormsModule
   ],
   exports:[]
 })

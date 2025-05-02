@@ -32,7 +32,7 @@ export interface SessionResponse {
     trainername: string;
     expertise: string;
     email: string;
-    password: string;
+    
   };
   trainerid: number;
   batch: {
@@ -208,10 +208,12 @@ export class DashboardComponent implements OnInit {
       this.http.get<any[]>(`http://localhost:8080/api/attendance/session/${session.sessionid}`)
         .pipe(
           map(attendanceList => {
+            console.log("attendanceList", attendanceList.length)
             if (!attendanceList.length) return { total: 0, present: 0, percentage: 0 };
             
             const totalStudents = attendanceList.length;
             const presentStudents = attendanceList.filter(a => a.present).length;
+            console.log("presentStudents",presentStudents)
             const percentage = totalStudents > 0 ? (presentStudents / totalStudents) * 100 : 0;
             
             // Store in the session attendance map
@@ -418,37 +420,61 @@ export class DashboardComponent implements OnInit {
   analyzeTopicAttendance() {
     this.topicAttendanceData = [];
     
+    // Check if sessions data is available
+    if (!this.sessions || this.sessions.length === 0) {
+      console.log('No sessions available for topic attendance analysis');
+      return;
+    }
+    
     const topicAttendanceMap = new Map<string, number[]>();
     
+    // Log for debugging
+    console.log("Starting topic attendance analysis with:", this.sessions.length, "sessions");
+    console.log("Session attendance data available:", this.sessionAttendance.size, "entries");
+    
     this.sessions.forEach(session => {
+      console.log("Processing session:", session.sessionid, session.topic);
       const attendanceData = this.sessionAttendance.get(session.sessionid);
+      
       if (attendanceData) {
-        if (!topicAttendanceMap.has(session.topic)) {
-          topicAttendanceMap.set(session.topic, []);
+        // Use the simplifiedTopic here to ensure consistency
+        const simplifiedTopic = session.topic.length > 15 ? session.topic.substring(0, 13) + '...' : session.topic;
+        
+        if (!topicAttendanceMap.has(simplifiedTopic)) {
+          topicAttendanceMap.set(simplifiedTopic, []);
         }
-        topicAttendanceMap.get(session.topic)!.push(attendanceData.percentage);
+        topicAttendanceMap.get(simplifiedTopic)!.push(attendanceData.percentage);
+      } else {
+        console.log("No attendance data found for session:", session.sessionid);
       }
     });
     
+    // Process the collected data
     topicAttendanceMap.forEach((percentages, topic) => {
-      const avgAttendance = percentages.reduce((sum, val) => sum + val, 0) / 
-        (percentages.length || 1);
-      
-      const simplifiedTopic = topic.length > 15 ? topic.substring(0, 13) + '...' : topic;
-      
-      this.topicAttendanceData.push({
-        topic: simplifiedTopic,
-        attendance: Math.round(avgAttendance)
-      });
+      if (percentages.length > 0) {
+        const avgAttendance = percentages.reduce((sum, val) => sum + val, 0) / percentages.length;
+        
+        this.topicAttendanceData.push({
+          topic: topic,
+          attendance: Math.round(avgAttendance)
+        });
+      }
     });
     
+    // Sort by attendance percentage (highest first)
     this.topicAttendanceData.sort((a, b) => b.attendance - a.attendance);
     
+    // Limit to 10 topics for better visualization
     if (this.topicAttendanceData.length > 10) {
       this.topicAttendanceData = this.topicAttendanceData.slice(0, 10);
     }
     
-    console.log('Topic attendance analysis:', this.topicAttendanceData);
+    console.log('Topic attendance analysis completed:', this.topicAttendanceData);
+    
+    // Recreate the chart with the new data
+    setTimeout(() => {
+      this.createTopicAttendanceChart();
+    }, 100);
   }
   
   createTopicsChart() {

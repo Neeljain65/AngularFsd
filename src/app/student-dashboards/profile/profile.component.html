@@ -1,45 +1,260 @@
 <div class="p-8">
-    <h1 class="text-3xl font-bold mb-6 text-gray-800">👋 Hello, {{ student.name }}</h1>
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-800 mb-2">My Profile</h1>
+    <p class="text-gray-600">Your personal information and account details</p>
+  </div>
   
-    <!-- Student Details Card -->
-    <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-200 max-w-xl">
-      <h2 class="text-2xl font-semibold mb-6 text-gray-700">🎓 Student Profile</h2>
+  <!-- Loading State -->
+  <div *ngIf="!student" class="flex justify-center items-center h-64">
+    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+  </div>
   
-      <div class="space-y-4 text-gray-600">
-        <div>
-          <span class="font-medium text-gray-800">ID:</span>
-          <span class="ml-2 text-gray-700">{{ student.studentid }}</span>
+  <!-- Profile Content -->
+  <div *ngIf="student" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Left Column -->
+    <div class="lg:col-span-1">
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="h-32 bg-gradient-to-r from-indigo-600 to-purple-600"></div>
+        <div class="relative px-6 pb-6">
+          <div class="absolute -top-12 left-6">
+            <div class="h-24 w-24 rounded-full bg-white p-1">
+              <div class="h-full w-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold">
+                {{ student.name}}
+              </div>
+            </div>
+          </div>
+          <div class="pt-14">
+            <h2 class="text-2xl font-bold text-gray-800">{{ student.name }}</h2>
+            <p class="text-gray-600">{{ student.feild }}</p>
+            
+            <div class="mt-6 pt-6 border-t border-gray-100">
+              <div class="flex items-center text-gray-700 mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <span>{{ student.email }}</span>
+              </div>
+              
+              <div class="flex items-center text-gray-700 mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <span>Student ID: {{ student.studentid }}</span>
+              </div>
+              
+              <div class="flex items-center text-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <span>Batch: {{ student.batchid }}</span>
+              </div>
+            </div>
+          </div>
         </div>
-  
-        <div>
-          <span class="font-medium text-gray-800">Name:</span>
-          <span class="ml-2 text-gray-700">{{ student.name }}</span>
+      </div>
+      
+      <!-- Quick Actions -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mt-6">
+        <h3 class="text-lg font-semibold mb-4 text-gray-800">Quick Actions</h3>
+        <div class="space-y-2">
+          <button (click)="toggleEditMode()" class="w-full flex items-center justify-between p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
+            <span class="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+              </svg>
+              <span class="text-gray-700">Edit Profile</span>
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+          
+          <!-- <button class="w-full flex items-center justify-between p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
+            <span class="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+              <span class="text-gray-700">Change Password</span>
+            </span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button> -->
         </div>
-  
-        <div>
-          <span class="font-medium text-gray-800">Email:</span>
-          <span class="ml-2 text-blue-600 underline">{{ student.email }}</span>
+      </div>
+    </div>
+    
+    <!-- Right Column -->
+    <div class="lg:col-span-2">
+      <!-- Profile Details -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-xl font-bold text-gray-800">Student Profile</h3>
+          
+          <!-- Success message -->
+          <div *ngIf="updateSuccess" class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            Profile updated!
+          </div>
         </div>
-  
-        <div>
-          <span class="font-medium text-gray-800">Field:</span>
-          <span class="ml-2 inline-block bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full">
-            {{ student.feild }}
-          </span>
-        </div>
-  
-        <div>
-          <span class="font-medium text-gray-800">Age:</span>
-          <span class="ml-2 text-gray-700">{{ student.age }}</span>
-        </div>
-  
         
-  
+        <!-- Error message -->
+        <div *ngIf="updateError" class="mb-4 p-3 bg-red-50 text-red-700 rounded-lg">
+          {{ updateError }}
+        </div>
+        
+        <!-- Edit Form -->
+        <form *ngIf="isEditing" [formGroup]="editForm" (ngSubmit)="saveChanges()" class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+              <input 
+                type="text" 
+                id="name" 
+                formControlName="name" 
+                class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+              >
+              <div *ngIf="editForm.get('name')?.invalid && editForm.get('name')?.touched" class="mt-1 text-sm text-red-600">
+                Name is required
+              </div>
+            </div>
+            
+            <div>
+              <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+              <input 
+                type="email" 
+                id="email" 
+                formControlName="email" 
+                class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+              >
+              <div *ngIf="editForm.get('email')?.invalid && editForm.get('email')?.touched" class="mt-1 text-sm text-red-600">
+                Valid email is required
+              </div>
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label for="feild" class="block text-sm font-medium text-gray-700 mb-1">Field of Study</label>
+              <input 
+                type="text" 
+                id="feild" 
+                formControlName="feild" 
+                class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+              >
+              <div *ngIf="editForm.get('feild')?.invalid && editForm.get('feild')?.touched" class="mt-1 text-sm text-red-600">
+                Field of study is required
+              </div>
+            </div>
+            
+            <div>
+              <label for="age" class="block text-sm font-medium text-gray-700 mb-1">Age</label>
+              <input 
+                type="number" 
+                id="age" 
+                formControlName="age" 
+                class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+              >
+              <div *ngIf="editForm.get('age')?.invalid && editForm.get('age')?.touched" class="mt-1 text-sm text-red-600">
+                Valid age between 16 and 100 is required
+              </div>
+            </div>
+          </div>
+          
+          <div class="flex justify-end space-x-3">
+            <button 
+              type="button" 
+              (click)="toggleEditMode()" 
+              class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+            >
+              Cancel
+            </button>
+            <button 
+              type="submit" 
+              [disabled]="editForm.invalid"
+              class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50"
+            >
+              Save Changes
+            </button>
+          </div>
+        </form>
+        
+        <!-- Display Profile Info (when not editing) -->
+        <div *ngIf="!isEditing" class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-500 mb-1">Full Name</label>
+              <div class="text-lg font-medium text-gray-800">{{ student.name }}</div>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-500 mb-1">Email Address</label>
+              <div class="text-lg font-medium text-gray-800">{{ student.email }}</div>
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-500 mb-1">Field of Study</label>
+              <div class="text-lg font-medium text-gray-800">{{ student.feild }}</div>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-500 mb-1">Age</label>
+              <div class="text-lg font-medium text-gray-800">{{ student.age }} years</div>
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-500 mb-1">Student ID</label>
+              <div class="text-lg font-medium text-gray-800">{{ student.studentid }}</div>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-500 mb-1">Batch ID</label>
+              <div class="text-lg font-medium text-gray-800">{{ student.batchid }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Education & Skills -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mt-6">
+        <h3 class="text-xl font-bold mb-6 text-gray-800">Education & Skills</h3>
+        
+        <div class="mb-6">
+          <h4 class="text-lg font-semibold mb-3 text-gray-700">Education</h4>
+          <div class="bg-gray-50 rounded-lg p-4">
+            <div class="font-medium text-gray-800">Bachelor of {{ student.feild }}</div>
+            <div class="text-gray-600 mt-1">Cambridge University</div>
+            <div class="text-sm text-gray-500 mt-1">2020 - Present</div>
+          </div>
+        </div>
+        
         <div>
-          <span class="font-medium text-gray-800">Batch:</span>
-          <span class="ml-2 text-gray-700">{{ student.batchid }}</span>
+          <h4 class="text-lg font-semibold mb-3 text-gray-700">Skills</h4>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm">
+              {{ student.feild }}
+            </span>
+            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">
+              Programming
+            </span>
+            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">
+              Data Analysis
+            </span>
+            <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">
+              Problem Solving
+            </span>
+            <span class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm">
+              Teamwork
+            </span>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

@@ -19,18 +19,18 @@
         <div class="mb-6">
           <div class="flex items-center justify-between mb-2">
             <span class="text-gray-600">Overall Attendance</span>
-            <span [class]="getAttendanceClass(attendanceData?.percentage || 0)" class="font-bold">
-              {{ attendanceData?.percentage || 0 }}%
+            <span [class]="getAttendanceClass(attendanceData?.attendancePercentage || 0)" class="font-bold">
+              {{ attendanceData?.attendancePercentage || 0 }}%
             </span>
           </div>
           
           <div class="bg-gray-200 h-3 rounded-full">
             <div class="h-full rounded-full bg-gradient-to-r from-blue-500 to-indigo-600" 
-                 [style.width.%]="attendanceData?.percentage || 0"></div>
+                 [style.width.%]="attendanceData?.attendancePercentage || 0"></div>
           </div>
           
           <div class="mt-2 text-sm text-gray-500">
-            Attended {{ attendanceData?.attendedClasses || 0 }} out of {{ attendanceData?.totalClasses || 0 }} classes
+            Attended {{ attendanceData?.attendedSessions || 0 }} out of {{ attendanceData?.totalSessions || 0 }} classes
           </div>
         </div>
         
@@ -39,8 +39,8 @@
         <div class="grid grid-cols-6 gap-2 h-32">
           <div *ngFor="let month of attendancePerMonth" class="flex flex-col items-center">
             <div class="flex-grow flex items-end w-full">
-              <div class="w-full bg-indigo-600 opacity-80 rounded-t" 
-                   [style.height.%]="month.percentage"></div>
+              <!-- <div class="w-full bg-indigo-600 opacity-80 rounded-t" 
+                   [style.height.%]="month.attendancePercentage"></div> -->
             </div>
             <span class="text-xs font-medium mt-1 text-gray-600">{{ month.month }}</span>
           </div>
@@ -182,17 +182,17 @@
           <div class="flex items-center">
             <div class="h-14 w-14 rounded-full border-4" 
                  [ngClass]="{
-                   'border-green-500 text-green-600': (attendanceData?.percentage || 0) >= 90,
-                   'border-blue-500 text-blue-600': (attendanceData?.percentage || 0) >= 75 && (attendanceData?.percentage || 0) < 90,
-                   'border-yellow-500 text-yellow-600': (attendanceData?.percentage || 0) >= 60 && (attendanceData?.percentage || 0) < 75,
-                   'border-red-500 text-red-600': (attendanceData?.percentage || 0) < 60
+                   'border-green-500 text-green-600': (attendanceData?.attendancePercentage || 0) >= 90,
+                   'border-blue-500 text-blue-600': (attendanceData?.attendancePercentage || 0) >= 75 && (attendanceData?.attendancePercentage || 0) < 90,
+                   'border-yellow-500 text-yellow-600': (attendanceData?.attendancePercentage || 0) >= 60 && (attendanceData?.attendancePercentage || 0) < 75,
+                   'border-red-500 text-red-600': (attendanceData?.attendancePercentage || 0) < 60
                  }"
                  class="flex items-center justify-center font-bold">
-              {{ attendanceData?.percentage || 0 }}%
+              {{ attendanceData?.attendancePercentage || 0 }}%
             </div>
             <div class="ml-4">
-              <div class="font-medium" [class]="getAttendanceClass(attendanceData?.percentage || 0)">
-                {{ getAttendanceStatus(attendanceData?.percentage || 0) }}
+              <div class="font-medium" [class]="getAttendanceClass(attendanceData?.attendancePercentage || 0)">
+                {{ getAttendanceStatus(attendanceData?.attendancePercentage || 0) }}
               </div>
               <div class="text-sm text-gray-500">Attendance status</div>
             </div>
@@ -203,7 +203,7 @@
           <div class="p-3 bg-green-50 rounded-lg border border-green-100">
             <div class="font-medium text-green-700">Strengths</div>
             <ul class="mt-1 text-sm text-green-600 list-disc pl-5">
-              <li *ngIf="(attendanceData?.percentage || 0) > 80">Consistent attendance</li>
+              <li *ngIf="(attendanceData?.attendancePercentage || 0) > 80">Consistent attendance</li>
               <li>Active participation in sessions</li>
               <li>Regular engagement with course materials</li>
             </ul>
@@ -212,7 +212,7 @@
           <div class="p-3 bg-yellow-50 rounded-lg border border-yellow-100">
             <div class="font-medium text-yellow-700">Areas for Improvement</div>
             <ul class="mt-1 text-sm text-yellow-600 list-disc pl-5">
-              <li *ngIf="(attendanceData?.percentage || 0) < 80">Improve attendance consistency</li>
+              <li *ngIf="(attendanceData?.attendancePercentage || 0) < 80">Improve attendance consistency</li>
               <li>Complete more practice exercises</li>
               <li>Participate in more collaborative activities</li>
             </ul>

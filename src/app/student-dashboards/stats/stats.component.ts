@@ -4,9 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 
 export interface AttendanceData {
   studentId: number;
-  totalClasses: number;
-  attendedClasses: number;
-  percentage: number;
+  totalSessions: number;
+  attendedSessions: number;
+  attendancePercentage: number;
 }
 
 export interface Session {

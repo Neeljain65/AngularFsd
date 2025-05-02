@@ -12,9 +12,9 @@ export interface Student {
 
 export interface AttendanceData {
   studentId: number;
-  totalClasses: number;
-  attendedClasses: number;
-  percentage: number;
+  totalSessions: number;
+  attendedSessions: number;
+  attendancePercentage: number;
 }
 
 export interface Skill {

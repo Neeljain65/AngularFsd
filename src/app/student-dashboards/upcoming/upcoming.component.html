@@ -1,16 +1,60 @@
-<div class="bg-white p-4 rounded shadow mb-6">
-    <h3 class="text-lg font-semibold mb-4">Upcoming Sessions</h3>
-    <div *ngIf="upcomingSessions.length > 0; else noSessions">
-      <div *ngFor="let session of upcomingSessions" class="mb-4">
-        <h4 class="font-bold">{{ session.topic }}</h4>
-        <p>Date: {{ session.date }}</p>
-        <p>Time: {{ formatTime(session.time) }}</p>
-        <p>Duration: {{ session.duration }} hours</p>
-        <p>Trainer: {{ session.trainer.trainername }} ({{ session.trainer.expertise }})</p>
-        <p>Batch: {{ session.batch.type }}</p>
+<div class="space-y-6">
+  <div *ngIf="upcomingSessions.length > 0; else noSessions">
+    <div *ngFor="let session of upcomingSessions" class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-md transition-all">
+      <div class="flex justify-between items-start mb-4">
+        <h3 class="text-xl font-bold text-gray-800">{{ session.topic }}</h3>
+        <span class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium">
+          {{ session.duration }} hours
+        </span>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div class="flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <span class="text-gray-600">{{ session.date }}</span>
+        </div>
+        
+        <div class="flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span class="text-gray-600">{{ formatTime(session.time) }}</span>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-100 pt-4 mt-2">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <div class="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold">
+              {{ session.trainer.trainername.charAt(0).toUpperCase() }}
+            </div>
+            <div class="ml-3">
+              <div class="font-medium text-gray-800">{{ session.trainer.trainername }}</div>
+              <div class="text-sm text-gray-500">{{ session.trainer.expertise }}</div>
+            </div>
+          </div>
+          
+          <div class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+            <span class="text-gray-600">{{ session.batch.type }}</span>
+          </div>
+        </div>
       </div>
     </div>
-    <ng-template #noSessions>
-      <p>No upcoming sessions available.</p>
-    </ng-template>
   </div>
+  
+  <ng-template #noSessions>
+    <div class="bg-white rounded-xl p-6 border border-gray-100 text-center">
+      <div class="mx-auto w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+      </div>
+      <p class="text-gray-500">No upcoming sessions available.</p>
+    </div>
+  </ng-template>
+</div>
